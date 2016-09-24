@@ -10,27 +10,14 @@ public extension SwiftyImpress where Base: ImpressView {
         
 }
 
-extension ImpressView: SwiftyImpressCompatible { }
-
-//extension CALayer: SwiftyImpressCompatible{}
-
-//extension SwiftyImpress where Base: CALayer {
-//    func resizeSubLayers(scaleX: CGFloat, scaleY: CGFloat) {
-//        print("scale x:\(base.value(forKeyPath: "transform.scale.x"))")
-//        print("scale y:\(base.value(forKeyPath: "transform.scale.y"))")
-//        base.transform = CATransform3DScale(base.transform, scaleX, scaleY, 0)
-////        base.transform = CATransform3DMakeScale(scaleX, scaleY, 0)
-//        if let subLayers = base.sublayers {
-//            for layer in subLayers {
-//                layer.si.resizeSubLayers(scaleX: scaleX, scaleY: scaleY)
-//            }
-//        }
-//    }
-//}
+@objc public protocol ImpressViewDelegate {
+    @objc optional func impressView(_: ImpressView, endInView view: View)
+}
 
 public class ImpressView: View, CAAnimationDelegate {
     
     public var duration: CFTimeInterval = 2.0
+    public var delegate: ImpressViewDelegate?
     
     private let tapRecognizer = UITapGestureRecognizer()
     private let swipeLeftRecognizer = UISwipeGestureRecognizer()
@@ -38,7 +25,22 @@ public class ImpressView: View, CAAnimationDelegate {
     private var desTransform: CATransform3D?
     private var originSize = CGSize.zero
     private var stepViews = [View]()
-    private var currStep: Int = 0
+    private var currStep: Int = 0 {
+        didSet {
+            guard let allSublayers = bgLayer.sublayers else {
+                return
+            }
+            var step = 0
+            for layer in allSublayers {
+                if step == currStep {
+                    layer.opacity = 1.0
+                } else {
+                    layer.opacity = 0.3
+                }
+                step += 1
+            }
+        }
+    }
     private var bgLayer = CALayer()
     private var scaleX: CGFloat = 1.0
     private var scaleY: CGFloat = 1.0
@@ -96,6 +98,13 @@ public class ImpressView: View, CAAnimationDelegate {
         swipeRightRecognizer.direction = .right
         swipeLeftRecognizer.addTarget(self, action: #selector(self.swipeHandler(gestureRecognizer:)))
         swipeRightRecognizer.addTarget(self, action: #selector(self.swipeHandler(gestureRecognizer:)))
+        bgLayer.addObserver(self, forKeyPath: "presentationLayer", options: .new, context: nil)
+    }
+    
+    public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "presentationLayer" {
+            print(bgLayer.value(forKey: "presentationLayer"))
+        }
     }
     
     public override func layoutSubviews() {
@@ -121,7 +130,30 @@ public class ImpressView: View, CAAnimationDelegate {
     #endif
     
     @objc func tapHandler(gestureRecognizer: UITapGestureRecognizer) {
-        next()
+        let bgPresentLayer = bgLayer.presentation() ?? bgLayer
+        guard let allSublayers = bgPresentLayer.sublayers else {
+            return
+        }
+        
+        let point = gestureRecognizer.location(in: self)
+        guard layer.contains(point) else {
+            return
+        }
+        
+        var step = 0
+        let pointInBgPresentLayer = layer.convert(point, to: bgPresentLayer)
+        for sublayer in allSublayers {
+            let frame = (sublayer.presentation() ?? sublayer).frame
+            if frame.contains(pointInBgPresentLayer) {
+                if step != currStep {
+                    currStep = step
+                    animate()
+                    
+                }
+                break;
+            }
+            step += 1
+        }
     }
     
     @objc func swipeHandler(gestureRecognizer: UISwipeGestureRecognizer) {
@@ -136,21 +168,22 @@ public class ImpressView: View, CAAnimationDelegate {
     }
     
     public func next() {
-        currStep += 1
-        let originTransform = (bgLayer.presentation() ?? bgLayer).transform
-        desTransform = CATransform3DTranslate(originTransform, -bgLayer.frame.width, 0, 0)
-        animate(originTransform: originTransform)
+        currStep = (currStep + 1) % stepViews.count
+        animate()
     }
     
     public func prev() {
-        currStep -= 1
-        let originTransform = (bgLayer.presentation() ?? bgLayer).transform
-        desTransform = CATransform3DTranslate(originTransform, bgLayer.frame.width, 0, 0)
-        animate(originTransform: originTransform)
+        if currStep == 0 {
+            currStep = stepViews.count - 1
+        } else {
+            currStep = currStep - 1
+        }
+        animate()
     }
     
-    private func animate(originTransform: CATransform3D) {
-        
+    private func animate() {
+        let originTransform = (bgLayer.presentation() ?? bgLayer).transform
+        desTransform = CATransform3DInvert(stepViews[currStep].si.transform3D)
         let animation = CABasicAnimation()
         animation.delegate = self
         animation.isRemovedOnCompletion = false
@@ -164,9 +197,20 @@ public class ImpressView: View, CAAnimationDelegate {
     
     public func addStep(view: View) {
         stepViews.append(view)
-        view.layer.position.x = bgLayer.position.x + CGFloat(stepViews.count - 1) * bgLayer.frame.width
+        
+        if stepViews.count == 1 {
+            view.layer.opacity = 1.0
+        } else {
+            view.layer.opacity = 0.3
+        }
+        
+        // Re-position the center of the layer and make a scale for it
+        view.layer.position.x = bgLayer.position.x
         view.layer.position.y = bgLayer.position.y
         view.layer.transform = CATransform3DMakeScale(scaleX, scaleY, 0)
+        
+        // Add it to right position
+        view.layer.transform = view.si.transform3D
         bgLayer.addSublayer(view.layer)
     }
     
@@ -182,6 +226,8 @@ public class ImpressView: View, CAAnimationDelegate {
             CATransaction.begin()
             CATransaction.setDisableActions(true)
             bgLayer.transform = transform
+            bgLayer.removeAllAnimations()
+            delegate?.impressView?(self, endInView: stepViews[currStep])
             CATransaction.commit()
         }
     }

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6F6620271D96D1BA00CAB895 /* SwiftyImpress.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F6EB46E1D94A5F8008055B0 /* SwiftyImpress.framework */; };
+		6F6620281D96D1BA00CAB895 /* SwiftyImpress.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6F6EB46E1D94A5F8008055B0 /* SwiftyImpress.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6F6EB44B1D94A575008055B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F6EB44A1D94A575008055B0 /* AppDelegate.swift */; };
 		6F6EB44D1D94A575008055B0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F6EB44C1D94A575008055B0 /* ViewController.swift */; };
 		6F6EB4501D94A575008055B0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6F6EB44E1D94A575008055B0 /* Main.storyboard */; };
@@ -15,6 +17,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		6F6620291D96D1BA00CAB895 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6F6EB4691D94A5F8008055B0 /* SwiftyImpress.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 6F6EB4261D949F85008055B0;
+			remoteInfo = SwiftyImpress;
+		};
 		6F6EB46D1D94A5F8008055B0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6F6EB4691D94A5F8008055B0 /* SwiftyImpress.xcodeproj */;
@@ -30,6 +39,20 @@
 			remoteInfo = SwiftyImpress;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6F66202B1D96D1BB00CAB895 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				6F6620281D96D1BA00CAB895 /* SwiftyImpress.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		6F6EB4471D94A575008055B0 /* iOS Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -47,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6F6620271D96D1BA00CAB895 /* SwiftyImpress.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,11 +125,13 @@
 				6F6EB4431D94A575008055B0 /* Sources */,
 				6F6EB4441D94A575008055B0 /* Frameworks */,
 				6F6EB4451D94A575008055B0 /* Resources */,
+				6F66202B1D96D1BB00CAB895 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				6F6EB4701D94A603008055B0 /* PBXTargetDependency */,
+				6F66202A1D96D1BA00CAB895 /* PBXTargetDependency */,
 			);
 			name = "iOS Example";
 			productName = "iOS Example";
@@ -188,6 +214,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		6F66202A1D96D1BA00CAB895 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SwiftyImpress;
+			targetProxy = 6F6620291D96D1BA00CAB895 /* PBXContainerItemProxy */;
+		};
 		6F6EB4701D94A603008055B0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = SwiftyImpress;
@@ -309,6 +340,7 @@
 		6F6EB45A1D94A575008055B0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "iOS Example/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -321,6 +353,7 @@
 		6F6EB45B1D94A575008055B0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "iOS Example/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
