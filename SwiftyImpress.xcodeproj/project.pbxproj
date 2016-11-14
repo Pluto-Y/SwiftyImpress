@@ -9,20 +9,35 @@
 /* Begin PBXBuildFile section */
 		6F0ED05A1D94B83300AB62C1 /* SwiftyImpress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F0ED0591D94B83300AB62C1 /* SwiftyImpress.swift */; };
 		6F0ED0601D95D84300AB62C1 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F0ED05F1D95D84300AB62C1 /* View+Extension.swift */; };
-		6F66202D1D96EF3C00CAB895 /* CATransform3D+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F66202C1D96EF3C00CAB895 /* CATransform3D+Extension.swift */; };
 		6F6EB4391D94A13D008055B0 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6F6EB4361D94A13D008055B0 /* Info.plist */; };
 		6F6EB43A1D94A13D008055B0 /* SwiftyImpress.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F6EB4371D94A13D008055B0 /* SwiftyImpress.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6F6EB43C1D94A1A4008055B0 /* ImpressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F6EB43B1D94A1A4008055B0 /* ImpressView.swift */; };
+		6F8B11501DB2815A004C6001 /* SwiftyImpress_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8B114F1DB2815A004C6001 /* SwiftyImpress_Tests.swift */; };
+		6F8B11521DB2815A004C6001 /* SwiftyImpress.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F6EB4271D949F85008055B0 /* SwiftyImpress.framework */; };
+		6FF9168C1DAC4877002E1D2E /* Transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF9168B1DAC4877002E1D2E /* Transform.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		6F8B11531DB2815A004C6001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6F6EB41E1D949F85008055B0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6F6EB4261D949F85008055B0;
+			remoteInfo = SwiftyImpress;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		6F0ED0591D94B83300AB62C1 /* SwiftyImpress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyImpress.swift; sourceTree = "<group>"; };
 		6F0ED05F1D95D84300AB62C1 /* View+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
-		6F66202C1D96EF3C00CAB895 /* CATransform3D+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CATransform3D+Extension.swift"; sourceTree = "<group>"; };
 		6F6EB4271D949F85008055B0 /* SwiftyImpress.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftyImpress.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F6EB4361D94A13D008055B0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6F6EB4371D94A13D008055B0 /* SwiftyImpress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwiftyImpress.h; sourceTree = "<group>"; };
 		6F6EB43B1D94A1A4008055B0 /* ImpressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImpressView.swift; sourceTree = "<group>"; };
+		6F8B114D1DB2815A004C6001 /* SwiftyImpress Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SwiftyImpress Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6F8B114F1DB2815A004C6001 /* SwiftyImpress_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyImpress_Tests.swift; sourceTree = "<group>"; };
+		6F8B11511DB2815A004C6001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6FF9168B1DAC4877002E1D2E /* Transform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Transform.swift; path = Class/Transform.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +48,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6F8B114A1DB2815A004C6001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6F8B11521DB2815A004C6001 /* SwiftyImpress.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -40,7 +63,6 @@
 			isa = PBXGroup;
 			children = (
 				6F0ED05F1D95D84300AB62C1 /* View+Extension.swift */,
-				6F66202C1D96EF3C00CAB895 /* CATransform3D+Extension.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -49,6 +71,7 @@
 			isa = PBXGroup;
 			children = (
 				6F6EB4341D94A13D008055B0 /* Source */,
+				6F8B114E1DB2815A004C6001 /* SwiftyImpress Tests */,
 				6F6EB4281D949F85008055B0 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -57,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				6F6EB4271D949F85008055B0 /* SwiftyImpress.framework */,
+				6F8B114D1DB2815A004C6001 /* SwiftyImpress Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -64,6 +88,7 @@
 		6F6EB4341D94A13D008055B0 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				6FF9168A1DAC4803002E1D2E /* Classes */,
 				6F0ED05E1D95D82100AB62C1 /* Extension */,
 				6F6EB4361D94A13D008055B0 /* Info.plist */,
 				6F6EB4371D94A13D008055B0 /* SwiftyImpress.h */,
@@ -71,6 +96,23 @@
 				6F0ED0591D94B83300AB62C1 /* SwiftyImpress.swift */,
 			);
 			path = Source;
+			sourceTree = "<group>";
+		};
+		6F8B114E1DB2815A004C6001 /* SwiftyImpress Tests */ = {
+			isa = PBXGroup;
+			children = (
+				6F8B114F1DB2815A004C6001 /* SwiftyImpress_Tests.swift */,
+				6F8B11511DB2815A004C6001 /* Info.plist */,
+			);
+			path = "SwiftyImpress Tests";
+			sourceTree = "<group>";
+		};
+		6FF9168A1DAC4803002E1D2E /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				6FF9168B1DAC4877002E1D2E /* Transform.swift */,
+			);
+			name = Classes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -105,18 +147,41 @@
 			productReference = 6F6EB4271D949F85008055B0 /* SwiftyImpress.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		6F8B114C1DB2815A004C6001 /* SwiftyImpress Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6F8B11551DB2815A004C6001 /* Build configuration list for PBXNativeTarget "SwiftyImpress Tests" */;
+			buildPhases = (
+				6F8B11491DB2815A004C6001 /* Sources */,
+				6F8B114A1DB2815A004C6001 /* Frameworks */,
+				6F8B114B1DB2815A004C6001 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6F8B11541DB2815A004C6001 /* PBXTargetDependency */,
+			);
+			name = "SwiftyImpress Tests";
+			productName = "SwiftyImpress Tests";
+			productReference = 6F8B114D1DB2815A004C6001 /* SwiftyImpress Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		6F6EB41E1D949F85008055B0 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0800;
 				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "com.pluto-y";
 				TargetAttributes = {
 					6F6EB4261D949F85008055B0 = {
 						CreatedOnToolsVersion = 8.0;
 						LastSwiftMigration = 0800;
+						ProvisioningStyle = Automatic;
+					};
+					6F8B114C1DB2815A004C6001 = {
+						CreatedOnToolsVersion = 8.0;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -134,6 +199,7 @@
 			projectRoot = "";
 			targets = (
 				6F6EB4261D949F85008055B0 /* SwiftyImpress */,
+				6F8B114C1DB2815A004C6001 /* SwiftyImpress Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -147,6 +213,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6F8B114B1DB2815A004C6001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -156,12 +229,28 @@
 			files = (
 				6F0ED05A1D94B83300AB62C1 /* SwiftyImpress.swift in Sources */,
 				6F0ED0601D95D84300AB62C1 /* View+Extension.swift in Sources */,
+				6FF9168C1DAC4877002E1D2E /* Transform.swift in Sources */,
 				6F6EB43C1D94A1A4008055B0 /* ImpressView.swift in Sources */,
-				6F66202D1D96EF3C00CAB895 /* CATransform3D+Extension.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6F8B11491DB2815A004C6001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6F8B11501DB2815A004C6001 /* SwiftyImpress_Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6F8B11541DB2815A004C6001 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6F6EB4261D949F85008055B0 /* SwiftyImpress */;
+			targetProxy = 6F8B11531DB2815A004C6001 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		6F6EB42D1D949F85008055B0 /* Debug */ = {
@@ -302,6 +391,28 @@
 			};
 			name = Release;
 		};
+		6F8B11561DB2815A004C6001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "SwiftyImpress Tests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.pluto-y.SwiftyImpress-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		6F8B11571DB2815A004C6001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "SwiftyImpress Tests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.pluto-y.SwiftyImpress-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -322,6 +433,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		6F8B11551DB2815A004C6001 /* Build configuration list for PBXNativeTarget "SwiftyImpress Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6F8B11561DB2815A004C6001 /* Debug */,
+				6F8B11571DB2815A004C6001 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

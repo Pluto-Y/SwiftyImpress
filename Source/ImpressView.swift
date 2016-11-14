@@ -41,6 +41,7 @@ public class ImpressView: View, CAAnimationDelegate {
             }
         }
     }
+    
     private var bgLayer = CALayer()
     private var scaleX: CGFloat = 1.0
     private var scaleY: CGFloat = 1.0
@@ -195,7 +196,7 @@ public class ImpressView: View, CAAnimationDelegate {
         bgLayer.add(animation, forKey: nil)
     }
     
-    public func addStep(view: View) {
+    @discardableResult public func addStep(view: View) -> Self {
         stepViews.append(view)
         
         if stepViews.count == 1 {
@@ -212,6 +213,7 @@ public class ImpressView: View, CAAnimationDelegate {
         // Add it to right position
         view.layer.transform = view.si.transform3D
         bgLayer.addSublayer(view.layer)
+        return self
     }
     
     public func removeStep(view: View) {
@@ -227,8 +229,12 @@ public class ImpressView: View, CAAnimationDelegate {
             CATransaction.setDisableActions(true)
             bgLayer.transform = transform
             bgLayer.removeAllAnimations()
-            delegate?.impressView?(self, endInView: stepViews[currStep])
             CATransaction.commit()
+            let activeView = stepViews[currStep]
+            if let handler = activeView.si.completion {
+                handler.closure(activeView)
+            }
+            delegate?.impressView?(self, endInView: activeView)
         }
     }
     

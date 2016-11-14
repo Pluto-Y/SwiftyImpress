@@ -14,7 +14,7 @@
     public typealias View = NSView
 #endif
 
-public struct SwiftyImpress<Base> {
+public class SwiftyImpress<Base> {
     public let base: Base
     public init(_ base: Base) {
         self.base = base

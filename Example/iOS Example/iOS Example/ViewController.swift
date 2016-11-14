@@ -29,13 +29,22 @@ class ViewController: UIViewController, ImpressViewDelegate {
         testView.addStep(view: step1)
         
         var step2 = UIView(frame: frame)
-        step2.si.transform3D = CATransform3D(x: (frame.size.height + frame.size.width)/2.0, z: 100, rotateZ: 90)
+        step2.si.with(transform: makeTransforms([
+            translation((frame.size.height + frame.size.width)/2.0),
+            translation(100, .z),
+            rotation(90, .z)
+            ])).when { _ in
+            print("active step is 2")
+            }
         step2.backgroundColor = UIColor.orange
         step2.tag = 2
         testView.addStep(view: step2)
-        
+
         var step3 = UIView(frame: frame)
-        step3.si.transform3D = CATransform3D(x: frame.size.width + frame.size.height, scaleX: 2, scaleY: 2, scaleZ: 2)
+        step3.si.with(transform: makeTransforms([
+            translation(frame.size.width + frame.size.height),
+            scale(CGFloat(2.0))
+            ]))
         step3.backgroundColor = UIColor.green
         step3.tag = 3
         testView.addStep(view: step3)

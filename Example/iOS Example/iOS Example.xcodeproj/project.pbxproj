@@ -38,6 +38,13 @@
 			remoteGlobalIDString = 6F6EB4261D949F85008055B0;
 			remoteInfo = SwiftyImpress;
 		};
+		6F8B11591DB287A4004C6001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6F6EB4691D94A5F8008055B0 /* SwiftyImpress.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6F8B114D1DB2815A004C6001;
+			remoteInfo = "SwiftyImpress Tests";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -111,6 +118,7 @@
 			isa = PBXGroup;
 			children = (
 				6F6EB46E1D94A5F8008055B0 /* SwiftyImpress.framework */,
+				6F8B115A1DB287A4004C6001 /* SwiftyImpress Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -150,6 +158,7 @@
 				TargetAttributes = {
 					6F6EB4461D94A575008055B0 = {
 						CreatedOnToolsVersion = 8.0;
+						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -184,6 +193,13 @@
 			fileType = wrapper.framework;
 			path = SwiftyImpress.framework;
 			remoteRef = 6F6EB46D1D94A5F8008055B0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6F8B115A1DB287A4004C6001 /* SwiftyImpress Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "SwiftyImpress Tests.xctest";
+			remoteRef = 6F8B11591DB287A4004C6001 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
