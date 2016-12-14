@@ -14,9 +14,11 @@ public extension SwiftyImpress where Base: ImpressView {
     @objc optional func impressView(_: ImpressView, endInView view: View)
 }
 
-public class ImpressView: View, CAAnimationDelegate {
+public final class ImpressView: View, CAAnimationDelegate {
     
-    public var duration: CFTimeInterval = 2.0
+    private let delta: CGFloat = 10e-6
+    
+    public var duration: CFTimeInterval = 1.0
     public var delegate: ImpressViewDelegate?
     
     private let tapRecognizer = UITapGestureRecognizer()
@@ -104,7 +106,7 @@ public class ImpressView: View, CAAnimationDelegate {
     
     public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "presentationLayer" {
-            print(bgLayer.value(forKey: "presentationLayer"))
+            print(bgLayer.value(forKey: "presentationLayer") ?? "")
         }
     }
     
@@ -183,6 +185,7 @@ public class ImpressView: View, CAAnimationDelegate {
     }
     
     private func animate() {
+//        bgLayer.removeAllAnimations()
         let originTransform = (bgLayer.presentation() ?? bgLayer).transform
         desTransform = CATransform3DInvert(stepViews[currStep].si.transform3D)
         let animation = CABasicAnimation()
@@ -196,14 +199,15 @@ public class ImpressView: View, CAAnimationDelegate {
         bgLayer.add(animation, forKey: nil)
     }
     
+    @discardableResult public func addSteps(_ views: View...) -> Self {
+        for view in views {
+            addStep(view: view)
+        }
+        return self;
+    }
+    
     @discardableResult public func addStep(view: View) -> Self {
         stepViews.append(view)
-        
-        if stepViews.count == 1 {
-            view.layer.opacity = 1.0
-        } else {
-            view.layer.opacity = 0.3
-        }
         
         // Re-position the center of the layer and make a scale for it
         view.layer.position.x = bgLayer.position.x
@@ -213,6 +217,14 @@ public class ImpressView: View, CAAnimationDelegate {
         // Add it to right position
         view.layer.transform = view.si.transform3D
         bgLayer.addSublayer(view.layer)
+        
+        if stepViews.count == 1 {
+            currStep = 0
+            bgLayer.transform = CATransform3DInvert(view.si.transform3D)
+            view.layer.opacity = 1.0
+        } else {
+            view.layer.opacity = 0.3
+        }
         return self
     }
     
@@ -237,5 +249,4 @@ public class ImpressView: View, CAAnimationDelegate {
             delegate?.impressView?(self, endInView: activeView)
         }
     }
-    
 }

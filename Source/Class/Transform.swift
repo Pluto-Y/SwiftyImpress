@@ -30,14 +30,13 @@ public enum TransformElement {
     case transform(CATransform3D)
 }
 
-
 public typealias Transform = (CATransform3D) -> CATransform3D
 
-precedencegroup ConnectionGroup {
+precedencegroup SIConnectionGroup {
     associativity: left
 }
 
-infix operator -->: ConnectionGroup
+infix operator -->: SIConnectionGroup
 
 public func -->(left: @escaping Transform, right: @escaping Transform) -> Transform {
     return { transform in
@@ -101,14 +100,14 @@ public func scale(_ scale: CGFloat, _ coordinate: Axis = .all) -> Transform {
 }
 
 public func transform(_ transform: CATransform3D) -> Transform {
-    return { _ in
-        return transform
+    return { t in
+        return CATransform3DConcat(transform, t)
     }
 }
 
-public func pure(_ t: CATransform3D) -> Transform {
-    return { _ in
-        return t
+public func pure(_ transform: CATransform3D) -> Transform {
+    return { t in
+        return CATransform3DConcat(transform, t)
     }
 }
 

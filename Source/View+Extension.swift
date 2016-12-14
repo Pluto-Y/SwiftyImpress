@@ -10,7 +10,7 @@
 extension View: SwiftyImpressCompatible { }
 
 // MARK: - Associated Key
-private var transform3DKey: Void?;
+private var transform3DKey: Void?
 private var completionKey: Void?
 
 public typealias CompletionHandler = (_ view: View) -> ()
@@ -37,6 +37,15 @@ public extension SwiftyImpress where Base: View {
         }
     }
     
+    public var size: CGSize {
+        set {
+            base.frame = CGRect(origin: base.frame.origin, size: newValue)
+        }
+        get {
+            return base.bounds.size
+        }
+    }
+    
     public var completion: CompleteClosureWrapper? {
         get {
             if let completion = objc_getAssociatedObject(base, &completionKey) as? CompleteClosureWrapper {
@@ -49,8 +58,19 @@ public extension SwiftyImpress where Base: View {
         }
     }
     
+    @discardableResult public func from(_ base: Base, transform: CATransform3D) -> SwiftyImpress {
+        let view = base as View
+        self.transform3D = makeTransforms([pure(transform)], from: view.si.transform3D)
+        return self
+    }
+    
     @discardableResult public func with(transform: CATransform3D) -> SwiftyImpress {
         self.transform3D = transform
+        return self
+    }
+    
+    @discardableResult public func config(clouse: (_: Base) -> ()) -> SwiftyImpress {
+        clouse(base)
         return self
     }
     
