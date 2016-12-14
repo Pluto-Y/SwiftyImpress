@@ -95,7 +95,7 @@ class ViewController: UIViewController, ImpressViewDelegate {
     func impressView(_: ImpressView, endInView view: View) {
         print("finished step : \(view.tag)")
     }
-    
+     
 
 }
 
