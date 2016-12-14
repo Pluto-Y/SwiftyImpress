@@ -88,6 +88,7 @@ public final class ImpressView: View, CAAnimationDelegate {
         initAll()
     }
     
+    
     private func initAll() {
         addGestureRecognizer(tapRecognizer)
         addGestureRecognizer(swipeLeftRecognizer)
