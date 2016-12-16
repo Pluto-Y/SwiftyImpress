@@ -27,7 +27,11 @@ public final class ImpressView: View, CAAnimationDelegate {
     private var desTransform: CATransform3D?
     private var originSize = CGSize.zero
     private var stepViews = [View]()
+    private var prevStep: Int = 0
     private var currStep: Int = 0 {
+        willSet {
+            prevStep = currStep
+        }
         didSet {
             guard let allSublayers = bgLayer.sublayers else {
                 return
@@ -93,7 +97,7 @@ public final class ImpressView: View, CAAnimationDelegate {
         addGestureRecognizer(swipeLeftRecognizer)
         addGestureRecognizer(swipeRightRecognizer)
 #if os(iOS) || os(tvOS)
-        self.bgLayer.backgroundColor = UIColor.red.cgColor
+        //self.bgLayer.backgroundColor = UIColor.red.cgColor
         self.layer.addSublayer(bgLayer)
 #endif
         tapRecognizer.addTarget(self, action: #selector(self.tapHandler(gestureRecognizer:)))
@@ -185,7 +189,6 @@ public final class ImpressView: View, CAAnimationDelegate {
     }
     
     private func animate() {
-//        bgLayer.removeAllAnimations()
         let originTransform = (bgLayer.presentation() ?? bgLayer).transform
         desTransform = CATransform3DInvert(stepViews[currStep].si.transform3D)
         let animation = CABasicAnimation()
@@ -196,7 +199,8 @@ public final class ImpressView: View, CAAnimationDelegate {
         animation.duration = duration
         animation.fromValue = NSValue(caTransform3D: originTransform)//bgLayer.transform
         animation.toValue = NSValue(caTransform3D: desTransform!)
-        bgLayer.add(animation, forKey: nil)
+        bgLayer.removeAnimation(forKey: "sianimation\(prevStep)")
+        bgLayer.add(animation, forKey: "sianimation\(currStep)")
     }
     
     @discardableResult public func addSteps(_ views: View...) -> Self {
@@ -228,15 +232,8 @@ public final class ImpressView: View, CAAnimationDelegate {
         return self
     }
     
-    public func removeStep(view: View) {
-        if stepViews.contains(view) {
-            stepViews.remove(at: stepViews.index(of: view)!)
-            view.layer.removeFromSuperlayer()
-        }
-    }
-    
     public func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
-        if let transform = desTransform {
+        if let transform = desTransform, flag {
             CATransaction.begin()
             CATransaction.setDisableActions(true)
             bgLayer.transform = transform
