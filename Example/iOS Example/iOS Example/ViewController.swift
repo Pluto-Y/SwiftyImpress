@@ -81,6 +81,11 @@ class ViewController: UIViewController, ImpressViewDelegate {
             centerLbl.font = UIFont.systemFont(ofSize: 35)
             centerLbl.frame = CGRect(x: (view.si.size.width - centerLbl.intrinsicContentSize.width) / 2.0, y: (view.si.size.height - centerLbl.intrinsicContentSize.height) / 2.0, width: centerLbl.intrinsicContentSize.width, height: centerLbl.intrinsicContentSize.height)
             view.addSubview(centerLbl)
+            let bottomLbl = UILabel()
+            bottomLbl.text = "* no rhyme intended"
+            bottomLbl.font = UIFont.systemFont(ofSize: 16)
+            bottomLbl.frame = CGRect(x: 25, y: view.si.size.height - 55, width: bottomLbl.intrinsicContentSize.width, height: bottomLbl.intrinsicContentSize.height)
+            view.addSubview(bottomLbl)
             view.backgroundColor = UIColor.clear
             }
             .from(view3, transform: makeTransforms([
@@ -93,7 +98,7 @@ class ViewController: UIViewController, ImpressViewDelegate {
     }
     
     func impressView(_: ImpressView, endInView view: View) {
-        print("finished step : \(view.tag)")
+//        print("finished step : \(view.tag)")
     }
      
 
