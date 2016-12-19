@@ -6,6 +6,63 @@
 //  Copyright © 2016 com.pluto-y. All rights reserved.
 //
 
+public extension CATransform3D {
+    
+    public var scaleX: CGFloat {
+        let layer = CALayer()
+        layer.transform = self
+        return layer.value(forKeyPath: "transform.scale.x") as? CGFloat ?? 1.0
+    }
+    
+    public var scaleY: CGFloat {
+        let layer = CALayer()
+        layer.transform = self
+        return layer.value(forKeyPath: "transform.scale.y") as? CGFloat ?? 1.0
+    }
+    
+    public var scaleZ: CGFloat {
+        let layer = CALayer()
+        layer.transform = self
+        return layer.value(forKeyPath: "transform.scale.z") as? CGFloat ?? 1.0
+    }
+    
+    public var translationX: CGFloat {
+        let layer = CALayer()
+        layer.transform = self
+        return layer.value(forKeyPath: "transform.translation.x") as? CGFloat ?? 0.0
+    }
+    
+    public var translationY: CGFloat {
+        let layer = CALayer()
+        layer.transform = self
+        return layer.value(forKeyPath: "transform.translation.y") as? CGFloat ?? 0.0
+    }
+    
+    public var translationZ: CGFloat {
+        let layer = CALayer()
+        layer.transform = self
+        return layer.value(forKeyPath: "transform.translation.z") as? CGFloat ?? 0.0
+    }
+    
+    public var rotationX: CGFloat {
+        let layer = CALayer()
+        layer.transform = self
+        return layer.value(forKeyPath: "transform.rotation.x") as? CGFloat ?? 0.0
+    }
+    
+    public var rotationY: CGFloat {
+        let layer = CALayer()
+        layer.transform = self
+        return layer.value(forKeyPath: "transform.rotation.y") as? CGFloat ?? 0.0
+    }
+    
+    public var rotationZ: CGFloat {
+        let layer = CALayer()
+        layer.transform = self
+        return layer.value(forKeyPath: "transform.rotation.z") as? CGFloat ?? 0.0
+    }
+}
+
 public struct Axis: OptionSet {
     
     public let rawValue: Int
@@ -112,7 +169,9 @@ public func pure(_ transform: CATransform3D) -> Transform {
 }
 
 public func makeTransforms(_ transforms: [Transform], from transform: CATransform3D = CATransform3DIdentity) -> CATransform3D {
-    return transforms.reduce(pure(CATransform3DIdentity)) { result, next in
+    var t = CATransform3DIdentity
+    t.m34 = -CGFloat(1.0/500)
+    return transforms.reduce(pure(t)) { result, next in
         result --> next
     }(transform)
 }
