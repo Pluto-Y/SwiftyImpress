@@ -203,7 +203,7 @@ public final class ImpressView: View, CAAnimationDelegate {
         bgLayer.add(animation, forKey: "sianimation\(currStep)")
     }
     
-    @discardableResult public func addSteps(_ views: View...) -> Self {
+    @discardableResult public func config(_ views: View...) -> Self {
         for view in views {
             addStep(view: view)
         }
