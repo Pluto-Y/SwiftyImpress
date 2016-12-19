@@ -58,8 +58,8 @@ public extension SwiftyImpress where Base: View {
         }
     }
     
-    @discardableResult public func from(_ base: Base, transform: CATransform3D) -> SwiftyImpress {
-        let view = base as View
+    @discardableResult public func from(_ base: View, transform: CATransform3D) -> SwiftyImpress {
+        let view = base
         self.transform3D = makeTransforms([pure(transform)], from: view.si.transform3D)
         return self
     }
