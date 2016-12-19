@@ -91,10 +91,59 @@ class ViewController: UIViewController, ImpressViewDelegate {
             .from(view3, transform: makeTransforms([
                 translation(-1 * testView.si.size.width, .x),
                 translation(0.8 * testView.si.size.height, .y),
-                scale(3)
+                scale(3.5)
                 ]))
         
-        testView.addSteps(view1, view2, view3, view4)
+        let view5 = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth * 0.8, height: screenWidth))
+        view5.si.config { (view) in
+            view.si.size = CGSize(width: testView.frame.size.width * 0.8, height: testView.frame.size.width * 0.5)
+            let lbl = UILabel()
+            lbl.frame = CGRect(x: 0, y: 10, width: view.frame.size.width - 20, height: 220)
+            lbl.numberOfLines = 0
+            lbl.font = UIFont.systemFont(ofSize: 24)
+            lbl.text = "It’s a presentation tool inspired by the idea behind prezi.com and based on the power of CSS3 transforms and transitions in modern browsers."
+            view.addSubview(lbl)
+            view.backgroundColor = UIColor.clear
+            }
+            .from(view4, transform: makeTransforms([
+                translation(0.4 * testView.si.size.height, .y),
+                rotation(90),
+                scale(1.2)
+                ]))
+        
+        let view6 = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth * 0.6, height: screenWidth * 0.8))
+        view6.si.config { (view) in
+            view.si.size = CGSize(width: testView.frame.size.width * 0.8, height: testView.frame.size.width * 0.5)
+            let string = "visualize your\nbig\nthoughts"
+            let attributedStr = NSMutableAttributedString(string: string)
+            attributedStr.addAttributes([NSFontAttributeName: UIFont.systemFont(ofSize: 25)], range: NSMakeRange(0, 15))
+            attributedStr.addAttributes([NSFontAttributeName: UIFont.boldSystemFont(ofSize: 75)], range: NSMakeRange(15, 3))
+            attributedStr.addAttributes([NSFontAttributeName: UIFont.systemFont(ofSize: 25)], range: NSMakeRange(18, 9))
+            let lbl = UILabel()
+            lbl.frame = CGRect(x: 0, y: 0, width: view.frame.size.width - 20, height: 220)
+            lbl.numberOfLines = 0
+            lbl.attributedText = attributedStr
+            lbl.textAlignment = .center
+            view.addSubview(lbl)
+            view.backgroundColor = UIColor.clear
+            }
+            .from(view5, transform: makeTransforms([
+                translation(0.8 * testView.si.size.width, .x),
+                rotation(90),
+                scale(2)
+                ]))
+        
+        let lbl7: UILabel = UILabel()
+        lbl7.si.config { (lbl) in
+            lbl.text = "and tiny ideas"
+            lbl.si.size = lbl.intrinsicContentSize
+            lbl.backgroundColor = UIColor.red
+            }.from(view6, transform: makeTransforms([
+            translation(10, .x),
+            translation(300, .z),
+            ]))
+        
+        testView.config(view1, view2, view3, view4,view5, view6, lbl7)
     }
     
     func impressView(_: ImpressView, endInView view: View) {
