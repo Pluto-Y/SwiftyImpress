@@ -47,19 +47,19 @@ public extension CATransform3D {
     public var rotationX: CGFloat {
         let layer = CALayer()
         layer.transform = self
-        return layer.value(forKeyPath: "transform.rotation.x") as? CGFloat ?? 0.0
+        return ((layer.value(forKeyPath: "transform.rotation.x") as? CGFloat)  ?? 0.0) * 180 / CGFloat(M_PI)
     }
     
     public var rotationY: CGFloat {
         let layer = CALayer()
         layer.transform = self
-        return layer.value(forKeyPath: "transform.rotation.y") as? CGFloat ?? 0.0
+        return (layer.value(forKeyPath: "transform.rotation.y") as? CGFloat ?? 0.0) * 180 / CGFloat(M_PI)
     }
     
     public var rotationZ: CGFloat {
         let layer = CALayer()
         layer.transform = self
-        return layer.value(forKeyPath: "transform.rotation.z") as? CGFloat ?? 0.0
+        return (layer.value(forKeyPath: "transform.rotation.z") as? CGFloat ?? 0.0) * 180 / CGFloat(M_PI)
     }
 }
 
@@ -134,6 +134,7 @@ public func rotation(_ angle: CGFloat, _ coordinate: Axis = .z) -> Transform {
         if coordinate.contains(.z) {
             transform = CATransform3DRotate(transform, value, 0, 0, 1)
         }
+        transform.m34 = -1/200.0
         return transform
     }
 }
@@ -169,11 +170,9 @@ public func pure(_ transform: CATransform3D) -> Transform {
 }
 
 public func makeTransforms(_ transforms: [Transform], from transform: CATransform3D = CATransform3DIdentity) -> CATransform3D {
-    var t = CATransform3DIdentity
-    t.m34 = -CGFloat(1.0/500)
-    return transforms.reduce(pure(t)) { result, next in
+    return transforms.reduce(pure(CATransform3DIdentity)) { result, next in
         result --> next
-    }(transform)
+        }(transform)
 }
 
 
