@@ -17,6 +17,8 @@ public extension SwiftyImpress where Base: ImpressView {
 public final class ImpressView: View, CAAnimationDelegate {
     
     private let delta: CGFloat = 10e-6
+    private let perspective: CGFloat = 500
+    private var scale: CGFloat = 0.0
     
     public var duration: CFTimeInterval = 1.0
     public var delegate: ImpressViewDelegate?
@@ -194,11 +196,10 @@ public final class ImpressView: View, CAAnimationDelegate {
     private func animate() {
         let originTransform = (bgLayer.presentation() ?? bgLayer).transform
         desTransform = CATransform3DInvert(stepViews[currStep].si.transform3D)
-        if fabs(desTransform.translationZ + 1000) > 10e-8 {
-            desTransform.m34 = -1/(1000.0 + desTransform.translationZ);
-        } else if fabs(desTransform.translationZ + 1000) <= 10e-8 {
-            desTransform.m34 = 0
-        }
+        desTransform.m34 = -1/perspective
+        
+        let translateZ = -desTransform.translationZ
+        scale = (perspective - translateZ) / perspective
         
         let animation = CABasicAnimation()
         animation.delegate = self
@@ -210,6 +211,10 @@ public final class ImpressView: View, CAAnimationDelegate {
         animation.toValue = NSValue(caTransform3D: desTransform)
         bgLayer.removeAnimation(forKey: "sianimation\(prevStep)")
         bgLayer.add(animation, forKey: "sianimation\(currStep)")
+        UIView.animate(withDuration: duration) {
+            self.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+        }
+        
     }
     
     @discardableResult public func config(_ views: View...) -> Self {
@@ -248,6 +253,9 @@ public final class ImpressView: View, CAAnimationDelegate {
             bgLayer.transform = desTransform
             bgLayer.removeAllAnimations()
             CATransaction.commit()
+            UIView.animate(withDuration: duration/2.0) {
+                self.transform = CGAffineTransform(scaleX: self.scale, y: self.scale)
+            }
             let activeView = stepViews[currStep]
             if let handler = activeView.si.completion {
                 handler.closure(activeView)
