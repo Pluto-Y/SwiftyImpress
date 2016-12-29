@@ -61,6 +61,10 @@ public extension CATransform3D {
         layer.transform = self
         return (layer.value(forKeyPath: "transform.rotation.z") as? CGFloat ?? 0.0) * 180 / CGFloat(M_PI)
     }
+    
+    public var description: String {
+        return "tx:\(translationX),\nty:\(translationY),\ntz:\(translationZ),\nsx:\(scaleX),\nsy:\(scaleY),\nsz:\(scaleZ),\nrx:\(rotationX),\nrx:\(rotationY),\nrz:\(rotationZ)"
+    }
 }
 
 public struct Axis: OptionSet {
