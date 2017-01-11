@@ -54,8 +54,10 @@ public final class ImpressView: View, CAAnimationDelegate {
        let layer = CATransformLayer()
         return layer
     }()
-    private var scaleX: CGFloat = 1.0
-    private var scaleY: CGFloat = 1.0
+    
+    private var viewScaleX: CGFloat = 1.0
+    private var viewScaleY: CGFloat = 1.0
+    
     
     public var allowTap = true {
         didSet {
@@ -131,6 +133,8 @@ public final class ImpressView: View, CAAnimationDelegate {
     #if os(iOS) || os(tvOS)
     public override func layoutSublayers(of layer: CALayer) {
         super.layoutSublayers(of: layer)
+        var scaleX: CGFloat = 1.0
+        var scaleY: CGFloat = 1.0
         if originSize != self.frame.size {
             scaleX *= self.frame.size.width / originSize.width
             scaleY *= self.frame.size.height / originSize.height
@@ -196,24 +200,37 @@ public final class ImpressView: View, CAAnimationDelegate {
     private func animate() {
         let originTransform = (bgLayer.presentation() ?? bgLayer).transform
         desTransform = CATransform3DInvert(stepViews[currStep].si.transform3D)
+
         desTransform.m34 = -1/perspective
         
+        print(desTransform.description)
         let translateZ = -desTransform.translationZ
         scale = (perspective - translateZ) / perspective
+        print("----------------------\(scale)")
+        viewScaleX = scale * desTransform.scaleX
+        viewScaleY = scale * desTransform.scaleY
+        let tx = desTransform.translationX
+        let ty = desTransform.translationY
+        desTransform = CATransform3DTranslate(desTransform, (1.0/desTransform.scaleX - 1) * tx, (1.0/desTransform.scaleX - 1) * ty, 0.0)
+        desTransform = CATransform3DScale(desTransform, 1.0 / desTransform.scaleX, 1.0 / desTransform.scaleY, 1.0)
         
+        print(desTransform.description)
+        let beginTime = CACurrentMediaTime()
         let animation = CABasicAnimation()
         animation.delegate = self
         animation.isRemovedOnCompletion = false
         animation.fillMode = kCAFillModeForwards
         animation.keyPath = "transform"
         animation.duration = duration
+        animation.beginTime = beginTime
         animation.fromValue = NSValue(caTransform3D: originTransform)//bgLayer.transform
         animation.toValue = NSValue(caTransform3D: desTransform)
         bgLayer.removeAnimation(forKey: "sianimation\(prevStep)")
         bgLayer.add(animation, forKey: "sianimation\(currStep)")
-        UIView.animate(withDuration: duration) {
-            self.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-        }
+        
+        UIView.animate(withDuration: duration, animations: {
+            self.transform = CGAffineTransform(scaleX: self.viewScaleX, y: self.viewScaleY)
+        }, completion: nil)
         
     }
     
@@ -230,7 +247,6 @@ public final class ImpressView: View, CAAnimationDelegate {
         // Re-position the center of the layer and make a scale for it
         view.layer.position.x = bgLayer.position.x
         view.layer.position.y = bgLayer.position.y
-        view.layer.transform = CATransform3DMakeScale(scaleX, scaleY, 0)
         
         // Add it to right position
         view.layer.transform = view.si.transform3D
@@ -250,17 +266,29 @@ public final class ImpressView: View, CAAnimationDelegate {
         if flag {
             CATransaction.begin()
             CATransaction.setDisableActions(true)
-            bgLayer.transform = desTransform
-            bgLayer.removeAllAnimations()
+            var transform = self.desTransform
+//            transform = CATransform3DTranslate(transform, transform.translationX * (self.scale - 1), transform.translationY * (self.scale - 1), 0)
+//            transform = CATransform3DScale(transform, 1.0/(self.scale), 1.0/(self.scale), 1.0)
+            self.bgLayer.transform = transform
             CATransaction.commit()
-            UIView.animate(withDuration: duration/2.0) {
-                self.transform = CGAffineTransform(scaleX: self.scale, y: self.scale)
-            }
-            let activeView = stepViews[currStep]
+            let activeView = self.stepViews[self.currStep]
             if let handler = activeView.si.completion {
                 handler.closure(activeView)
             }
-            delegate?.impressView?(self, endInView: activeView)
+            self.delegate?.impressView?(self, endInView: activeView)
         }
+
+//        if flag {
+//            CATransaction.begin()
+//            CATransaction.setDisableActions(true)
+//            bgLayer.transform = desTransform
+//            bgLayer.removeAllAnimations()
+//            CATransaction.commit()
+//            let activeView = stepViews[currStep]
+//            if let handler = activeView.si.completion {
+//                handler.closure(activeView)
+//            }
+//            delegate?.impressView?(self, endInView: activeView)
+//        }
     }
 }

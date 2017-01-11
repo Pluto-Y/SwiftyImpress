@@ -51,6 +51,7 @@ class ViewController: UIViewController, ImpressViewDelegate {
             }
             .from(view1, transform: makeTransforms([
                 translation(screenWidth, .x),
+                scale(1.2)
                 ]))
         
         let view3 = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth * 0.8, height: screenWidth * 0.8 * (7.0 / 9.0)))
@@ -65,6 +66,7 @@ class ViewController: UIViewController, ImpressViewDelegate {
             }
             .from(view2, transform: makeTransforms([
                 translation(screenWidth, .x),
+                translation(-300, .z)
                 ]))
         
         let view4 = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth * 0.8, height: screenWidth * 0.8 * (7.0 / 9.0)))
@@ -86,11 +88,12 @@ class ViewController: UIViewController, ImpressViewDelegate {
             bottomLbl.font = UIFont.systemFont(ofSize: 16)
             bottomLbl.frame = CGRect(x: 25, y: view.si.size.height - 55, width: bottomLbl.intrinsicContentSize.width, height: bottomLbl.intrinsicContentSize.height)
             view.addSubview(bottomLbl)
-            view.backgroundColor = UIColor.clear
+            view.backgroundColor = UIColor.red
             }
             .from(view3, transform: makeTransforms([
                 translation(-1 * testView.si.size.width, .x),
                 translation(0.8 * testView.si.size.height, .y),
+                translation(300, .z),
                 scale(3.5)
                 ]))
         
